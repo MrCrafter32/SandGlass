@@ -104,10 +104,10 @@ export default function SessionManager({
           </Button>
         </div>
         <div className="space-y-2">
-          {sessions.length === 0 && <div className="text-gray-400">No saved sessions.</div>}
+          {sessions.length === 0 && <div className="text-gray-400 dark:text-gray-500">No saved sessions.</div>}
           {sessions.map(s => (
-            <div key={s.name} className="flex items-center gap-2 bg-gray-50 rounded p-2">
-              <div className="flex-1 truncate">
+            <div key={s.name} className="flex items-center gap-2 bg-gray-50 dark:bg-neutral-800 dark:border dark:border-neutral-700 rounded p-2">
+              <div className="flex-1 truncate text-black dark:text-white">
                 <span className="font-medium">{s.name}</span>
               </div>
               <Button size="sm" variant="outline" onClick={() => onLoadSession(s)}>

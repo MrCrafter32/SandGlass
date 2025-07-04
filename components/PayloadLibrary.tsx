@@ -18,7 +18,7 @@ interface PayloadCategory {
 
 export default function PayloadLibrary({ onSelect }: { onSelect: (payload: string) => void }) {
   const [categories, setCategories] = useState<PayloadCategory[]>([])
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     fetch('/data/payloads.json')

@@ -1,16 +1,15 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import type { LogEntry } from './LogViewer'
 
-type Props={payload:string;csp?:string;onLog?: (log: any) => void, injectionMethod?: 'innerHTML' | 'attribute' | 'eventHandler', fullscreen?: boolean}
+type Props={payload:string;csp?:string;onLog?: (log: LogEntry) => void, injectionMethod?: 'innerHTML' | 'attribute' | 'eventHandler', fullscreen?: boolean}
 
 export default function SandboxFrame({payload,csp,onLog,injectionMethod = 'innerHTML', fullscreen = false}:Props){
   const ref=useRef<HTMLIFrameElement>(null)
   
   useEffect(()=>{
     if(!ref.current)return
-    
-    // CSP Violation logger script
     const loggerScript = `
       window.addEventListener('securitypolicyviolation', function(e) {
         parent.postMessage({
@@ -27,15 +26,12 @@ export default function SandboxFrame({payload,csp,onLog,injectionMethod = 'inner
         }, '*');
       });
     `;
-
-    // Injection method logic
     let bodyContent = payload;
     if (injectionMethod === 'attribute') {
       bodyContent = `<img src=x onerror=\"${payload.replace(/"/g, '&quot;')}\">`;
     } else if (injectionMethod === 'eventHandler') {
       bodyContent = `<button onclick=\"${payload.replace(/"/g, '&quot;')}\">Click me</button>`;
     }
-
     const meta=csp?`<meta http-equiv="Content-Security-Policy" content="${csp}">`:''
     const html=`
       <html>
@@ -46,8 +42,6 @@ export default function SandboxFrame({payload,csp,onLog,injectionMethod = 'inner
         </body>
       </html>
     `
-    
-    // Use srcdoc instead of contentDocument for better compatibility
     try {
       ref.current.srcdoc = html
     } catch (error) {
